@@ -1,0 +1,1436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Bible - krugerbdg.com</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --accent: #e74c3c;
+            --text: #2c3e50;
+            --text-light: #7f8c8d;
+            --bg: #f8f9fa;
+            --card-bg: #ffffff;
+            --border: #e1e8ed;
+            --shadow: rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background: var(--bg);
+            background-image: url('/Bible.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(248, 249, 250, 0.85);
+            z-index: -1;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, rgba(44, 62, 80, 0.95) 0%, rgba(52, 73, 94, 0.95) 100%);
+            backdrop-filter: blur(10px);
+            color: white;
+            padding: 2rem 0;
+            box-shadow: 0 2px 10px var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .nav-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: var(--text);
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 2px 5px var(--shadow);
+            transition: all 0.3s;
+        }
+
+        select:hover {
+            box-shadow: 0 4px 8px var(--shadow);
+            transform: translateY(-1px);
+        }
+
+        select:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        /* Searchable Dropdown */
+        .searchable-dropdown {
+            position: relative;
+            min-width: 300px;
+            max-width: 100%;
+        }
+
+        @media (max-width: 768px) {
+            .searchable-dropdown {
+                min-width: 100%;
+            }
+        }
+
+        .searchable-dropdown-input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            padding-right: 2.5rem;
+            border: none;
+            border-radius: 8px;
+            background: white;
+            color: var(--text);
+            font-size: 0.95rem;
+            cursor: pointer;
+            box-shadow: 0 2px 5px var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .searchable-dropdown-input:hover {
+            box-shadow: 0 4px 8px var(--shadow);
+            transform: translateY(-1px);
+        }
+
+        .searchable-dropdown-input:focus {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+
+        .searchable-dropdown-arrow {
+            position: absolute;
+            right: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            pointer-events: none;
+            color: var(--text-light);
+            font-size: 0.8rem;
+            transition: transform 0.3s;
+        }
+
+        .searchable-dropdown.open .searchable-dropdown-arrow {
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        .searchable-dropdown-list {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow);
+            max-height: 400px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+        }
+
+        .searchable-dropdown.open .searchable-dropdown-list {
+            display: block;
+        }
+
+
+        .searchable-dropdown-item {
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .searchable-dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .searchable-dropdown-item:hover {
+            background: var(--bg);
+        }
+
+        .searchable-dropdown-item.selected {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .searchable-dropdown-item.selected .searchable-dropdown-item-name,
+        .searchable-dropdown-item.selected .searchable-dropdown-item-meta {
+            color: white;
+        }
+
+        .searchable-dropdown-item-name {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            color: var(--text);
+        }
+
+        .searchable-dropdown-item-meta {
+            font-size: 0.85rem;
+            opacity: 0.8;
+            color: var(--text-light);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            box-shadow: 0 4px 20px var(--shadow);
+            margin: 2rem 0;
+        }
+
+        .welcome-screen h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .welcome-screen p {
+            font-size: 1.2rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        .start-button {
+            background: var(--secondary);
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .start-button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        /* Bible Reader */
+        .bible-reader {
+            display: none;
+            grid-template-columns: 250px 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .bible-reader.active {
+            display: grid;
+        }
+
+        @media (max-width: 768px) {
+            .bible-reader {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px var(--shadow);
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+        }
+
+        .book-list {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .book-item {
+            padding: 0.75rem;
+            margin: 0.25rem 0;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .book-item:hover {
+            background: var(--bg);
+            border-left-color: var(--secondary);
+        }
+
+        .book-item.active {
+            background: rgba(52, 152, 219, 0.1);
+            border-left-color: var(--secondary);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .main-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px var(--shadow);
+            min-height: 600px;
+        }
+
+        .chapter-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .chapter-header h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .chapter-header .reference {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .chapter-nav {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .nav-button {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--border);
+            background: white;
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .nav-button:hover:not(:disabled) {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Chapter Dropdown */
+        .chapter-dropdown {
+            position: relative;
+            margin-left: auto;
+        }
+
+        .chapter-dropdown-button {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--border);
+            background: white;
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .chapter-dropdown-button:hover {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            transform: translateY(-1px);
+        }
+
+        .chapter-dropdown-list {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px var(--shadow);
+            max-height: 300px;
+            overflow-y: auto;
+            z-index: 1000;
+            display: none;
+            min-width: 120px;
+            border: 1px solid var(--border);
+        }
+
+        .chapter-dropdown.open .chapter-dropdown-list {
+            display: block;
+        }
+
+        .chapter-dropdown-item {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            border-bottom: 1px solid var(--border);
+            color: var(--text);
+        }
+
+        .chapter-dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .chapter-dropdown-item:hover {
+            background: var(--bg);
+        }
+
+        .chapter-dropdown-item.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .verses {
+            line-height: 2;
+            font-size: 1.1rem;
+        }
+
+        .verse {
+            margin: 1rem 0;
+            padding: 0.75rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .verse:hover {
+            background: var(--bg);
+        }
+
+        .verse-number {
+            color: var(--secondary);
+            font-weight: 700;
+            margin-right: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Bilingual verse styling */
+        .verses.bilingual .verse {
+            margin-bottom: 1.5rem;
+        }
+
+        .verse-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .verse-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .verse-text {
+            line-height: 1.8;
+        }
+
+        .verse-text.primary {
+            font-weight: 500;
+            color: var(--text);
+            flex: 1;
+        }
+
+        .verse-text.translation {
+            font-size: 0.95em;
+            color: var(--text-light);
+            font-style: italic;
+            padding-left: 1.5rem;
+            border-left: 2px solid var(--border);
+            margin-top: 0.25rem;
+            line-height: 1.6;
+        }
+
+        /* Commentary Styles */
+        .commentary-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .commentary-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .commentary-header h3 {
+            color: var(--primary);
+            font-size: 1.3rem;
+            margin: 0;
+        }
+
+        .commentary-verses {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .commentary-verse {
+            background: rgba(52, 152, 219, 0.05);
+            border-left: 4px solid var(--secondary);
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+        }
+
+        .commentary-verse-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .commentary-verse-number {
+            background: var(--secondary);
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+
+        .commentary-verse-content {
+            color: var(--text);
+            line-height: 1.8;
+            margin-left: 2.5rem;
+        }
+
+        /* Loading & Error States */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-light);
+        }
+
+        .spinner {
+            border: 4px solid var(--border);
+            border-top: 4px solid var(--secondary);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .error {
+            background: #fee;
+            color: var(--accent);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+            margin: 1rem 0;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-light);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+            margin-top: 3rem;
+        }
+
+        /* Video Section */
+        .videos-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
+        }
+
+        .videos-section h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .video-card {
+            background: var(--bg);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px var(--shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .video-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 3rem;
+        }
+
+        .video-info {
+            padding: 1rem;
+        }
+
+        .video-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .video-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .video-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .video-player {
+            width: 100%;
+            max-width: 800px;
+            margin: 2rem auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px var(--shadow);
+        }
+
+        .video-player video {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .no-videos {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-light);
+        }
+
+        /* Scrollbar Styling */
+        .book-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .book-list::-webkit-scrollbar-track {
+            background: var(--bg);
+            border-radius: 4px;
+        }
+
+        .book-list::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        .book-list::-webkit-scrollbar-thumb:hover {
+            background: var(--text-light);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .nav-controls {
+                width: 100%;
+                justify-content: center;
+            }
+
+            select {
+                width: 100%;
+            }
+
+            .welcome-screen h1 {
+                font-size: 2rem;
+            }
+
+            .chapter-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">📖</span>
+                <span>The Bible</span>
+            </div>
+            <div class="nav-controls">
+                <div class="searchable-dropdown" id="translation-dropdown">
+                    <input type="text" class="searchable-dropdown-input" id="translation-input" 
+                           placeholder="Type to search translations..." autocomplete="off">
+                    <span class="searchable-dropdown-arrow">▼</span>
+                    <div class="searchable-dropdown-list" id="translation-list-container">
+                        <div id="translation-list"></div>
+                    </div>
+                </div>
+                <select id="commentary-select" style="min-width: 200px;">
+                    <option value="">No Commentary</option>
+                </select>
+                <select id="bible-select" disabled style="display: none;">
+                    <option value="">Select Bible...</option>
+                </select>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Bible Reader -->
+        <div class="bible-reader active" id="bible-reader">
+            <div class="sidebar">
+                <h3>Books</h3>
+                <div class="book-list" id="book-list">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📚</div>
+                        <p>Select a translation to view books</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="main-content">
+                <div id="content-area">
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📖</div>
+                        <p>Select a book and chapter to begin reading</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 krugerbdg.com - Powered by HelloAO Bible API | Built with Rust & Axum</p>
+    </footer>
+
+    <script>
+        const API_BASE = window.location.origin;
+        let translations = [];
+        let books = [];
+        let currentTranslation = null;
+        let currentBook = null;
+        let currentChapter = null;
+        let commentaries = [];
+        let currentCommentary = null;
+        let currentCommentaryData = null;
+
+        // Load commentaries
+        async function loadCommentaries() {
+            try {
+                const response = await fetch('/api/commentaries');
+                if (!response.ok) {
+                    throw new Error('Failed to load commentaries');
+                }
+                commentaries = await response.json();
+                
+                const select = document.getElementById('commentary-select');
+                if (select) {
+                    // Clear existing options except "No Commentary"
+                    select.innerHTML = '<option value="">No Commentary</option>';
+                    
+                    commentaries.forEach(commentary => {
+                        const option = document.createElement('option');
+                        option.value = commentary.id;
+                        option.textContent = commentary.name || commentary.id;
+                        select.appendChild(option);
+                    });
+                }
+                
+                // Setup commentary change listener
+                select.addEventListener('change', async (e) => {
+                    const commentaryId = e.target.value;
+                    if (commentaryId && currentTranslation && currentBook && currentChapter) {
+                        await loadCommentary(commentaryId, currentBook.id, currentChapter.chapter);
+                    } else {
+                        currentCommentary = null;
+                        currentCommentaryData = null;
+                        if (currentChapter) {
+                            const isGerman = isGermanTranslation(currentTranslation);
+                            let englishChapterData = null;
+                            if (isGerman) {
+                                try {
+                                    const engResponse = await fetch(`/api/translations/eng_kjv/books/${currentBook.id}/chapters/${currentChapter.chapter}`);
+                                    if (engResponse.ok) {
+                                        englishChapterData = await engResponse.json();
+                                    }
+                                } catch (e) {
+                                    console.error('Error loading English parallel:', e);
+                                }
+                            }
+                            displayChapter(currentChapter, englishChapterData);
+                        }
+                    }
+                });
+            } catch (error) {
+                console.error('Error loading commentaries:', error);
+            }
+        }
+
+        // Load commentary for current chapter
+        async function loadCommentary(commentaryId, bookId, chapterNum) {
+            try {
+                const response = await fetch(`/api/commentaries/${commentaryId}/books/${bookId}/chapters/${chapterNum}`);
+                if (!response.ok) {
+                    throw new Error('Failed to load commentary');
+                }
+                currentCommentaryData = await response.json();
+                currentCommentary = commentaries.find(c => c.id === commentaryId);
+                
+                // Refresh the display to include commentary
+                if (currentChapter) {
+                    const isGerman = isGermanTranslation(currentTranslation);
+                    let englishChapterData = null;
+                    if (isGerman) {
+                        try {
+                            const engResponse = await fetch(`/api/translations/eng_kjv/books/${bookId}/chapters/${chapterNum}`);
+                            if (engResponse.ok) {
+                                englishChapterData = await engResponse.json();
+                            }
+                        } catch (e) {
+                            console.error('Error loading English parallel:', e);
+                        }
+                    }
+                    displayChapter(currentChapter, englishChapterData);
+                }
+            } catch (error) {
+                console.error('Error loading commentary:', error);
+                showError('Failed to load commentary. Please try again.');
+            }
+        }
+
+        // Load translations on page load
+        window.addEventListener('DOMContentLoaded', async () => {
+            await loadTranslations();
+            await loadCommentaries();
+        });
+
+        async function loadTranslations() {
+            const input = document.getElementById('translation-input');
+            if (!input) {
+                console.error('Translation input not found');
+                return;
+            }
+            
+            input.placeholder = 'Loading translations...';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/translations`);
+                if (!response.ok) {
+                    throw new Error(`Failed to load translations: ${response.status}`);
+                }
+                
+                const data = await response.json();
+                console.log('API Response:', data);
+                
+                // Handle wrapped response format
+                if (Array.isArray(data)) {
+                    translations = data;
+                } else if (data.translations && Array.isArray(data.translations)) {
+                    translations = data.translations;
+                } else {
+                    console.error('Unexpected API response format:', data);
+                    translations = [];
+                }
+                
+                console.log(`Loaded ${translations.length} translations`);
+                
+                input.placeholder = 'Type to search translations...';
+                
+                // Setup dropdown after translations are loaded
+                setupSearchableDropdown();
+            } catch (error) {
+                console.error('Error loading translations:', error);
+                input.placeholder = 'Error loading translations';
+                showError('Failed to load translations. Please try again.');
+            }
+        }
+
+        function renderTranslations(transList) {
+            const listContainer = document.getElementById('translation-list');
+            if (!listContainer) {
+                console.error('Translation list container not found');
+                return;
+            }
+            
+            console.log(`Rendering ${transList ? transList.length : 0} translations`);
+            
+            listContainer.innerHTML = '';
+            
+            if (!transList || transList.length === 0) {
+                listContainer.innerHTML = '<div class="searchable-dropdown-item" style="padding: 1rem; text-align: center; color: var(--text-light);">No translations found</div>';
+                return;
+            }
+            
+            // Limit to first 100 results for performance
+            const displayList = transList.slice(0, 100);
+            
+            displayList.forEach(trans => {
+                const item = document.createElement('div');
+                item.className = 'searchable-dropdown-item';
+                item.dataset.id = trans.id;
+                
+                const name = document.createElement('div');
+                name.className = 'searchable-dropdown-item-name';
+                name.textContent = trans.name || trans.id;
+                
+                const meta = document.createElement('div');
+                meta.className = 'searchable-dropdown-item-meta';
+                const metaText = [];
+                if (trans.english_name) metaText.push(trans.english_name);
+                if (trans.language_english_name) metaText.push(trans.language_english_name);
+                meta.textContent = metaText.join(' • ') || trans.id;
+                
+                item.appendChild(name);
+                item.appendChild(meta);
+                
+                item.addEventListener('click', () => {
+                    console.log('Selected translation:', trans.id);
+                    selectTranslation(trans);
+                });
+                
+                listContainer.appendChild(item);
+            });
+            
+            if (transList.length > 100) {
+                const moreItem = document.createElement('div');
+                moreItem.className = 'searchable-dropdown-item';
+                moreItem.style.cssText = 'padding: 0.75rem 1rem; text-align: center; color: var(--text-light); font-style: italic;';
+                moreItem.textContent = `... and ${transList.length - 100} more. Refine your search.`;
+                listContainer.appendChild(moreItem);
+            }
+        }
+
+        function selectTranslation(translation) {
+            currentTranslation = translation;
+            const input = document.getElementById('translation-input');
+            input.value = translation.name || translation.id;
+            
+            const dropdown = document.getElementById('translation-dropdown');
+            dropdown.classList.remove('open');
+            
+            // Clear the search results
+            const listContainer = document.getElementById('translation-list');
+            if (listContainer) {
+                listContainer.innerHTML = '';
+            }
+            
+            loadBooks(translation.id);
+            document.getElementById('bible-reader').classList.add('active');
+        }
+
+        let selectedIndex = -1;
+        let dropdownSetupDone = false;
+        
+        // Setup searchable dropdown
+        function setupSearchableDropdown() {
+            if (dropdownSetupDone) return; // Prevent duplicate setup
+            dropdownSetupDone = true;
+            
+            const dropdown = document.getElementById('translation-dropdown');
+            const input = document.getElementById('translation-input');
+            if (!dropdown || !input) {
+                console.error('Dropdown elements not found');
+                return;
+            }
+            
+            // Open dropdown when input is focused or clicked
+            input.addEventListener('focus', () => {
+                openDropdown();
+            });
+            
+            input.addEventListener('click', (e) => {
+                e.stopPropagation();
+                openDropdown();
+            });
+            
+            // Search functionality - filter as you type
+            input.addEventListener('input', (e) => {
+                const query = e.target.value.trim();
+                selectedIndex = -1;
+                
+                if (query.length === 0) {
+                    // Show all translations when input is empty
+                    openDropdown();
+                    renderTranslations(translations);
+                } else {
+                    // Filter translations as user types
+                    openDropdown();
+                    filterTranslations(query);
+                }
+            });
+            
+            function openDropdown() {
+                console.log('Opening dropdown, translations available:', translations ? translations.length : 0);
+                if (translations && translations.length > 0) {
+                    dropdown.classList.add('open');
+                    const currentValue = input.value.trim();
+                    console.log('Current input value:', currentValue);
+                    if (currentValue === '') {
+                        renderTranslations(translations);
+                    } else {
+                        filterTranslations(currentValue);
+                    }
+                } else {
+                    console.warn('Cannot open dropdown: no translations loaded');
+                }
+            }
+            
+            function filterTranslations(query) {
+                console.log('Filtering translations with query:', query);
+                if (!translations || translations.length === 0) {
+                    console.log('No translations available for filtering');
+                    return;
+                }
+                
+                const searchQuery = query.toLowerCase().trim();
+                console.log('Search query (lowercase):', searchQuery);
+                
+                let filteredTranslations;
+                if (searchQuery === '') {
+                    filteredTranslations = translations;
+                } else {
+                    filteredTranslations = translations.filter(trans => {
+                        const name = (trans.name || '').toLowerCase();
+                        const englishName = (trans.english_name || '').toLowerCase();
+                        const languageName = (trans.language_english_name || '').toLowerCase();
+                        const id = (trans.id || '').toLowerCase();
+                        
+                        const matches = name.includes(searchQuery) || 
+                               englishName.includes(searchQuery) || 
+                               languageName.includes(searchQuery) || 
+                               id.includes(searchQuery);
+                        
+                        return matches;
+                    });
+                }
+                
+                console.log(`Filtered ${filteredTranslations.length} translations for query: "${query}"`);
+                renderTranslations(filteredTranslations);
+            }
+            
+            // Keyboard navigation
+            input.addEventListener('keydown', (e) => {
+                const items = document.querySelectorAll('.searchable-dropdown-item');
+                if (items.length === 0) return;
+                
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+                    updateSelectedItem(items);
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedIndex = Math.max(selectedIndex - 1, -1);
+                    updateSelectedItem(items);
+                } else if (e.key === 'Enter' && selectedIndex >= 0) {
+                    e.preventDefault();
+                    items[selectedIndex].click();
+                } else if (e.key === 'Escape') {
+                    dropdown.classList.remove('open');
+                    input.value = '';
+                    selectedIndex = -1;
+                }
+            });
+            
+            function updateSelectedItem(items) {
+                items.forEach((item, index) => {
+                    if (index === selectedIndex) {
+                        item.classList.add('selected');
+                        item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                    } else {
+                        item.classList.remove('selected');
+                    }
+                });
+            }
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target)) {
+                    dropdown.classList.remove('open');
+                    selectedIndex = -1;
+                }
+            });
+            
+            // Prevent closing when clicking inside dropdown
+            dropdown.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        }
+
+        // Hide bible-select (not needed with HelloAO API)
+        document.getElementById('bible-select').style.display = 'none';
+
+        async function loadBooks(translationId) {
+            const bookList = document.getElementById('book-list');
+            bookList.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading books...</p></div>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/translations/${translationId}/books`);
+                if (!response.ok) throw new Error('Failed to load books');
+                
+                books = await response.json();
+                
+                bookList.innerHTML = '';
+                books.forEach(book => {
+                    const item = document.createElement('div');
+                    item.className = 'book-item';
+                    item.textContent = book.name || book.id;
+                    item.onclick = (e) => {
+                        selectBook(book, e.target);
+                    };
+                    bookList.appendChild(item);
+                });
+            } catch (error) {
+                bookList.innerHTML = '<div class="error">Failed to load books</div>';
+            }
+        }
+
+        async function selectBook(book, element) {
+            currentBook = book;
+            
+            // Update active state
+            document.querySelectorAll('.book-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            if (element) {
+                element.classList.add('active');
+            }
+            
+            // Load first chapter (HelloAO API - we'll try chapter 1)
+            await loadChapter(currentTranslation.id, book.id, 1);
+        }
+
+        async function loadChapter(translationId, bookId, chapterNum) {
+            const contentArea = document.getElementById('content-area');
+            contentArea.innerHTML = '<div class="loading"><div class="spinner"></div><p>Loading chapter...</p></div>';
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/translations/${translationId}/books/${bookId}/chapters/${chapterNum}`);
+                if (!response.ok) {
+                    if (response.status === 404) {
+                        contentArea.innerHTML = '<div class="empty-state"><p>Chapter not found. This book may not have this chapter.</p></div>';
+                        return;
+                    }
+                    throw new Error('Failed to load chapter');
+                }
+                
+                const chapterData = await response.json();
+                currentChapter = chapterData;
+                
+                // Check if this is a German translation and load English parallel text
+                const isGerman = isGermanTranslation(currentTranslation);
+                let englishChapterData = null;
+                
+                if (isGerman) {
+                    try {
+                        // Try to load English translation (KJV as default)
+                        const englishTranslationId = 'eng_kjv';
+                        const englishResponse = await fetch(`${API_BASE}/api/translations/${englishTranslationId}/books/${bookId}/chapters/${chapterNum}`);
+                        if (englishResponse.ok) {
+                            englishChapterData = await englishResponse.json();
+                        }
+                    } catch (error) {
+                        console.log('Could not load English parallel text:', error);
+                    }
+                }
+                
+                // Load commentary if one is selected
+                const commentarySelect = document.getElementById('commentary-select');
+                if (commentarySelect && commentarySelect.value) {
+                    await loadCommentary(commentarySelect.value, bookId, chapterNum);
+                } else {
+                    currentCommentaryData = null;
+                }
+                
+                // Display chapter with verses (and English if available)
+                displayChapter(chapterData, englishChapterData);
+            } catch (error) {
+                contentArea.innerHTML = '<div class="error">Failed to load chapter</div>';
+            }
+        }
+
+        function isGermanTranslation(translation) {
+            if (!translation) return false;
+            const lang = (translation.language || '').toLowerCase();
+            const langName = (translation.language_english_name || '').toLowerCase();
+            const langNameAlt = (translation.language_name || '').toLowerCase();
+            
+            return lang === 'deu' || 
+                   lang === 'ger' || 
+                   langName === 'german' || 
+                   langNameAlt === 'deutsch' ||
+                   langNameAlt === 'german';
+        }
+
+        async function navigateChapter(direction) {
+            if (!currentTranslation || !currentBook || !currentChapter) return;
+            
+            const currentChapterNum = currentChapter.chapter;
+            let nextChapterNum = direction === 'next' ? currentChapterNum + 1 : currentChapterNum - 1;
+            
+            if (nextChapterNum < 1) return;
+            
+            await loadChapter(currentTranslation.id, currentBook.id, nextChapterNum);
+        }
+
+        function cleanVerseText(text) {
+            if (!text) return '';
+            // Remove paragraph markers (¶) and clean up spacing
+            return text
+                .replace(/¶\s*/g, '') // Remove paragraph markers
+                .replace(/\s+/g, ' ') // Normalize whitespace
+                .trim();
+        }
+
+        function generateChapterList(book, currentChapter) {
+            if (!book) {
+                return '<div class="chapter-dropdown-item">No chapters available</div>';
+            }
+            
+            // Try different possible field names for chapter count
+            const totalChapters = book.number_of_chapters || book.numberOfChapters || 50; // Default to 50 if not found
+            let html = '';
+            
+            for (let i = 1; i <= totalChapters; i++) {
+                const isActive = i === currentChapter ? 'active' : '';
+                html += `<div class="chapter-dropdown-item ${isActive}" onclick="jumpToChapter(${i})">Chapter ${i}</div>`;
+            }
+            
+            return html;
+        }
+
+        function toggleChapterDropdown() {
+            const dropdown = document.getElementById('chapter-dropdown');
+            if (dropdown) {
+                dropdown.classList.toggle('open');
+            }
+        }
+
+        function jumpToChapter(chapterNum) {
+            if (!currentTranslation || !currentBook) return;
+            
+            const dropdown = document.getElementById('chapter-dropdown');
+            if (dropdown) {
+                dropdown.classList.remove('open');
+            }
+            
+            loadChapter(currentTranslation.id, currentBook.id, chapterNum);
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            const dropdown = document.getElementById('chapter-dropdown');
+            if (dropdown && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        function displayChapter(chapterData, englishChapterData = null) {
+            const contentArea = document.getElementById('content-area');
+            const bookName = currentBook.name || currentBook.id;
+            const chapterNum = chapterData.chapter;
+            const isBilingual = englishChapterData !== null;
+            
+            // Create a map of English verses by verse number for quick lookup
+            const englishVersesMap = new Map();
+            if (englishChapterData && englishChapterData.verses) {
+                englishChapterData.verses.forEach(verse => {
+                    englishVersesMap.set(verse.verse, verse.text);
+                });
+            }
+            
+            contentArea.innerHTML = `
+                <div class="chapter-header">
+                    <h2>${bookName} ${chapterNum}</h2>
+                    <div class="reference">
+                        ${currentTranslation.name || currentTranslation.id}
+                        ${isBilingual ? '<span style="opacity: 0.7; margin-left: 0.5rem;">+ English (KJV)</span>' : ''}
+                    </div>
+                </div>
+                <div class="chapter-nav">
+                    <button class="nav-button" onclick="navigateChapter('prev')" ${chapterNum <= 1 ? 'disabled' : ''}>
+                        ← Previous Chapter
+                    </button>
+                    <div class="chapter-dropdown" id="chapter-dropdown">
+                        <button class="chapter-dropdown-button" onclick="toggleChapterDropdown()">
+                            Chapter ${chapterNum} <span style="font-size: 0.8em;">▼</span>
+                        </button>
+                        <div class="chapter-dropdown-list" id="chapter-list">
+                            ${generateChapterList(currentBook, chapterNum)}
+                        </div>
+                    </div>
+                    <button class="nav-button" onclick="navigateChapter('next')">
+                        Next Chapter →
+                    </button>
+                </div>
+                <div class="verses ${isBilingual ? 'bilingual' : ''}">
+                    ${chapterData.verses.map(verse => {
+                        const englishText = englishVersesMap.get(verse.verse);
+                        if (isBilingual && englishText) {
+                            return `
+                            <div class="verse bilingual-verse">
+                                <div class="verse-content">
+                                    <div class="verse-header">
+                                        <span class="verse-number">${verse.verse}</span>
+                                        <div class="verse-text primary">${cleanVerseText(verse.text)}</div>
+                                    </div>
+                                    <div class="verse-text translation">${cleanVerseText(englishText)}</div>
+                                </div>
+                            </div>
+                        `;
+                        } else {
+                            return `
+                            <div class="verse">
+                                <span class="verse-number">${verse.verse}</span>
+                                <span>${cleanVerseText(verse.text)}</span>
+                            </div>
+                        `;
+                        }
+                    }).join('')}
+                </div>
+                ${currentCommentaryData && currentCommentaryData.verses && currentCommentaryData.verses.length > 0 ? `
+                <div class="commentary-section">
+                    <div class="commentary-header">
+                        <h3>${currentCommentary ? currentCommentary.name : 'Commentary'}</h3>
+                    </div>
+                    <div class="commentary-verses">
+                        ${currentCommentaryData.verses.map(verse => `
+                            <div class="commentary-verse">
+                                <div class="commentary-verse-header">
+                                    <div class="commentary-verse-number">${verse.verse}</div>
+                                </div>
+                                <div class="commentary-verse-content">${verse.content}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+                ` : ''}
+            `;
+        }
+
+
+        function showError(message) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error';
+            errorDiv.textContent = message;
+            document.querySelector('.container').insertBefore(errorDiv, document.querySelector('.container').firstChild);
+            
+            setTimeout(() => errorDiv.remove(), 5000);
+        }
+    </script>
+</body>
+</html>
+

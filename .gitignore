@@ -1,0 +1,29 @@
+# Rust
+/target
+# Note: Cargo.lock should be committed for applications (binaries)
+# Uncomment the line below if you want to exclude it:
+# Cargo.lock
+
+# Environment variables
+.env
+.env.local
+
+# Deployment scripts with sensitive info (optional - you may want to commit these)
+# Uncomment if you don't want to commit deployment scripts:
+# *.sh
+
+# DNS zone files (may contain sensitive info)
+*.zone
+*zone*.txt
+TheBibl.com.txt
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db

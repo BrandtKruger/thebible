@@ -1,0 +1,31 @@
+[Unit]
+Description=The Bible Web Server
+Documentation=https://github.com/yourusername/TheBible
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/thebible
+EnvironmentFile=/opt/thebible/.env
+ExecStart=/opt/thebible/target/release/server
+Restart=always
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=thebible
+
+# Security hardening
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/thebible
+
+# Resource limits
+LimitNOFILE=65536
+
+[Install]
+WantedBy=multi-user.target
+
